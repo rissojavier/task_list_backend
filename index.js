@@ -16,7 +16,6 @@ const corsOptions = {
     origin: '*',
 };
 
-// configuracion de CORS
 app.use(cors(corsOptions));
 
 app.use("/api/lideres", liderRoutes);
