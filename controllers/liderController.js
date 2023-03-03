@@ -6,13 +6,11 @@ import emailOlvidePassword from "../helpers/emailOlvidePassword.js";
 
 const registrar = async (req,res) => {
 
-    
-
     try {
         const { email, nombre } = req.body;
 
-    // Prevenir usuario duplicados
-    const existeUsuario = await Lider.findOne({email});
+        // Prevenir usuario duplicados
+        const existeUsuario = await Lider.findOne({email}).maxTimeMS(30000);
 
     if (existeUsuario) {
         //console.log(existeUsuario);
