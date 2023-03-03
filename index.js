@@ -12,7 +12,7 @@ dotenv.config();
 
 conectarDB();
 
-const dominiosPermitidos = [process.env.FRONTEND_URL || "https://tasklistbackend-production.up.railway.app"];
+const dominiosPermitidos = [process.env.FRONTEND_URL || "https://task-list-frontend.vercel.app"];
 
 const corsOptions = {
     origin: function(origin, callback) {
