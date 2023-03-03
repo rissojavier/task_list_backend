@@ -12,26 +12,12 @@ dotenv.config();
 
 conectarDB();
 
-const dominiosPermitidos = ["https://task-list-frontend.vercel.app" || process.env.FRONTEND_URL];
-
 const corsOptions = {
-    origin: function(origin, callback) {
-        if(dominiosPermitidos.indexOf(origin) !== -1) {
-            // El origen del Request esta permitido
-            console.log(dominiosPermitidos.indexOf(origin));
-            callback(null, true)
-        } else {
-            callback(new Error("No permitido por CORS"))
-        }
-    }
+    origin: '*',
 };
 
 // configuracion de CORS
-app.use(cors({ origin: '*' }))
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://task-list-frontend.vercel.app");
-  next();
-});
+app.use(cors(corsOptions));
 
 app.use("/api/lideres", liderRoutes);
 app.use("/api/task", taskRoutes);
