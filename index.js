@@ -26,9 +26,8 @@ const corsOptions = {
     }
 };
 
-app.use(cors({
-    origin: '*'
-}));
+// configuracion de CORS
+app.use(cors({ origin: '*' }))
 
 app.use("/api/lideres", liderRoutes);
 app.use("/api/task", taskRoutes);
