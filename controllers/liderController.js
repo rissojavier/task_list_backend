@@ -10,7 +10,7 @@ const registrar = async (req,res) => {
         const { email, nombre } = req.body;
 
         // Prevenir usuario duplicados
-        const existeUsuario = await Lider.findOne({email}).maxTimeMS(30000);
+        const existeUsuario = await Lider.findOne({email});
 
     if (existeUsuario) {
         //console.log(existeUsuario);
