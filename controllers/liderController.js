@@ -6,7 +6,10 @@ import emailOlvidePassword from "../helpers/emailOlvidePassword.js";
 
 const registrar = async (req,res) => {
 
-    const { email, nombre } = req.body;
+    
+
+    try {
+        const { email, nombre } = req.body;
 
     // Prevenir usuario duplicados
     const existeUsuario = await Lider.findOne({email});
@@ -16,8 +19,7 @@ const registrar = async (req,res) => {
         const error = new Error("Usuario ya registrado");
         return res.status(400).json({ msg: error.message });
     }
-
-    try {
+        
         // Guardar un nuevo Lider
         const lider = new Lider(req.body); // crea una nueva instancia/objeto de Lider
         const liderGuardado = await lider.save();
@@ -31,6 +33,7 @@ const registrar = async (req,res) => {
 
         res.json(liderGuardado);
     } catch (error) {
+        return res.status(400).json({ msg: error.message });
         console.log(error); // En caso de tener un error al almacenar el registro
     }
 
