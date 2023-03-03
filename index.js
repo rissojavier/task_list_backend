@@ -13,7 +13,6 @@ dotenv.config();
 conectarDB();
 
 const corsOptions = {
-    credentials: true,
     origin: '*',
 };
 
