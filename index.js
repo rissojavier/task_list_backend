@@ -28,6 +28,10 @@ const corsOptions = {
 
 // configuracion de CORS
 app.use(cors({ origin: '*' }))
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://task-list-frontend.vercel.app");
+  next();
+});
 
 app.use("/api/lideres", liderRoutes);
 app.use("/api/task", taskRoutes);
