@@ -4,22 +4,26 @@ import generarId from "../helpers/generarId.js";
 import emailRegistro from "../helpers/emailRegistro.js";
 import emailOlvidePassword from "../helpers/emailOlvidePassword.js";
 
+// Prevenir usuario duplicado
+const validarUsuarioDuplicado = async (email, res) => {
+    const existeUsuario = await Lider.findOne({email});
+  
+    if (existeUsuario) {
+      const error = new Error("Usuario ya registrado");
+      return res.status(400).json({ msg: error.message });
+    }
+  }
+
 const registrar = async (req,res) => {
 
+    const { email, nombre } = req.body;
+
+    // Validar usuario duplicado
+    await validarUsuarioDuplicado(email, res);
+
     try {
-        const { email, nombre } = req.body;
-
-        // Prevenir usuario duplicados
-        const existeUsuario = await Lider.findOne({email});
-
-    if (existeUsuario) {
-        //console.log(existeUsuario);
-        const error = new Error("Usuario ya registrado");
-        return res.status(400).json({ msg: error.message });
-    }
-        
-        // Guardar un nuevo Lider
-        const lider = new Lider(req.body); // crea una nueva instancia/objeto de Lider
+        // Guardar un nuevo Usuario
+        const lider = new Lider(req.body); 
         const liderGuardado = await lider.save();
 
         // Enviar el email
@@ -31,8 +35,7 @@ const registrar = async (req,res) => {
 
         res.json(liderGuardado);
     } catch (error) {
-        return res.status(400).json({ msg: error.message });
-        console.log(error); // En caso de tener un error al almacenar el registro
+        console.log(error);
     }
 
 };
@@ -41,18 +44,12 @@ const registrarAdmin = async (req,res) => {
 
    const { email, nombre } = req.body;
 
-    // Prevenir usuario duplicados
-    const existeUsuario = await Lider.findOne({email});
-
-    if (existeUsuario) {
-        //console.log(existeUsuario);
-        const error = new Error("Usuario ya registrado");
-        return res.status(400).json({ msg: error.message });
-    }
+    // Validar usuario duplicado
+    await validarUsuarioDuplicado(email, res);
 
     try {
         // Guardar un nuevo Lider
-        const lider = new Lider(req.body); // crea una nueva instancia/objeto de Lider
+        const lider = new Lider(req.body);
         lider.lider = true;
         const liderGuardado = await lider.save();
 
@@ -65,7 +62,7 @@ const registrarAdmin = async (req,res) => {
 
         res.json(liderGuardado);
     } catch (error) {
-        console.log(error); // En caso de tener un error al almacenar el registro
+        console.log(error);
     }
 };
 
@@ -181,7 +178,6 @@ const comprobarToken = async (req, res) => {
 
 const nuevoPassword = async (req, res) => {
     const { token } = req.params;
-    // console.log(token);
     const { password } = req.body;
 
     const lider = await Lider.findOne({ token });
