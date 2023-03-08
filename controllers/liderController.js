@@ -111,10 +111,10 @@ const autenticar = async (req, res) => {
     }
     
     // Comprobar si el usuario esta confirmado
-    if(!usuario.confirmado) {
-        const error = new Error("El usuario no esta confirmado!");
-        return res.status(403).json({ msg: error.message });
-    }
+    //if(!usuario.confirmado) {
+    //   const error = new Error("El usuario no esta confirmado!");
+    //   return res.status(403).json({ msg: error.message });
+    //}
     
     // Verificar el password
     if( await usuario.comprobarPassword(password)) {
